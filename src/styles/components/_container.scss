@@ -1,0 +1,21 @@
+.login-panel-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: 90rem;
+  min-width: 90rem;
+}
+
+.login-form-container {
+  margin: 0 auto;
+  max-width: 60rem;
+  min-width: 60rem;
+  padding: 0 $m-size;
+  border: 0.25rem solid $border-color;
+  /*shadow: (horizontal offset) (vertical offset) (blur radius) (spread radius) (color)*/
+  -moz-box-shadow: 0 0.15rem 0.5rem 0.5rem $shadow-color;
+  -webkit-box-shadow: 0 0.15rem 0.5rem 0.5rem $shadow-color;
+  box-shadow: 0 0.15rem 0.5rem 0.5rem $shadow-color;
+}

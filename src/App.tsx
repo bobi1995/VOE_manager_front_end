@@ -1,16 +1,18 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { createUploadLink } from "apollo-upload-client";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
+import './styles/styles.scss';
+import Login from './components/Login';
 //import { UploadFile } from "./UploadFile";
 
 const client = new ApolloClient({
   link: createUploadLink({
-    uri: "http://localhost:3001/graphql",
+    uri: 'http://localhost:3001/graphql',
     headers: {
-      "apollo-require-preflight": true,
-      "Content-Type": "application/json",
+      'apollo-require-preflight': true,
+      'Content-Type': 'application/json',
     },
   }),
   cache: new InMemoryCache(),
@@ -23,6 +25,7 @@ function App() {
       This was only for testing AVATAR upload endpoint. Please ignore it
       <UploadFile />
       */}
+      <Login />
     </ApolloProvider>
   );
 }

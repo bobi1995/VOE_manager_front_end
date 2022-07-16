@@ -1,0 +1,45 @@
+// big button
+.big-button {
+  background-color: $button-background;
+  border: none;
+  border-bottom: 0.5rem solid darken($button-background, 10%);
+  color: $button-text-black;
+  font-weight: bold;
+  font-size: $l-size;
+  margin-bottom: $m-size;
+  padding: 2.4rem;
+  width: 100%;
+}
+
+.big-button:disabled {
+  opacity: 0.5;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .big-button {
+    margin-bottom: $xl-size;
+  }
+}
+
+// button
+.button {
+  background: $button-background;
+  border: none;
+  border-bottom: 0.3rem solid darken($button-background, 10%);
+  color: $button-text-black;
+  font-weight: 500;
+  padding: $s-size;
+}
+
+// BEM  block element modiefier
+/*
+button element -> .button__dropdown
+modifier -> .button--link
+*/
+
+.button--link {
+  background: none;
+  border: none;
+  color: $button-text-black;
+  padding: 0;
+}

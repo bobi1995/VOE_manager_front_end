@@ -1,0 +1,8 @@
+$login-image-dimension: 30rem;
+
+.login-image {
+  position: relative;
+  left: calc(50% - (#{$login-image-dimension} / 2));
+  max-height: $login-image-dimension;
+  max-width: $login-image-dimension;
+}
