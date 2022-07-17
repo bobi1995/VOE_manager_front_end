@@ -1,0 +1,36 @@
+.header {
+  background-color: $header-background;
+  z-index: 99;
+  position: relative;
+  /*shadow: (horizontal offset) (vertical offset) (blur radius) (spread radius) (color)*/
+  -moz-box-shadow: 0 0.15rem 0.5rem 0.25rem $header-color-stroke;
+  -webkit-box-shadow: 0 0.15rem 0.5rem 0.25rem $header-color-stroke;
+  box-shadow: 0 0.15rem 0.5rem 0.25rem $header-color-stroke;
+}
+
+.header__title {
+  color: $header-color-1;
+  font-size: $font-size-xxl;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left: auto;
+  margin-right: auto;
+  h1 {
+    margin: 0;
+  }
+  .detail {
+    color: $header-color-2;
+    text-shadow: 0.15rem 0.15rem 0 $header-color-stroke,
+      -0.05rem -0.05rem 0 $header-color-stroke,
+      0.05rem -0.05rem 0 $header-color-stroke,
+      -0.05rem 0.05rem 0 $header-color-stroke,
+      0.05rem 0.05rem 0 $header-color-stroke;
+  }
+}
+
+.header__content {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: $s-size 0;
+}
