@@ -3,9 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
-import './styles/styles.scss';
 import MainRoute from './routes/MainRoute';
 import Header from './components/Header';
+import { ThemeProvider } from '@mui/material';
+import { managerTheme } from './styles/themes/managerTheme';
+import BaseStyling from './styles/base';
 //import { UploadFile } from "./UploadFile";
 
 const client = new ApolloClient({
@@ -22,12 +24,16 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      {/* 
+      <ThemeProvider theme={managerTheme}>
+        <BaseStyling>
+          {/* 
       This was only for testing AVATAR upload endpoint. Please ignore it
       <UploadFile />
       */}
-      <Header />
-      <MainRoute />
+          <Header />
+          <MainRoute />
+        </BaseStyling>
+      </ThemeProvider>
     </ApolloProvider>
   );
 }
