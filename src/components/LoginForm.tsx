@@ -1,11 +1,23 @@
-import { useState } from 'react';
-import { Form, FormikProvider, useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useState } from "react";
+import { Form, FormikProvider, useFormik } from "formik";
+import * as Yup from "yup";
+import { gql, useLazyQuery } from "@apollo/client";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
+import { Navigate } from "react-router-dom";
+import AlertBox from "./AlertBox";
 
-import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
+const LOGIN_QUERY = gql`
+  query ExampleQuery($username: String, $password: String) {
+    login(username: $username, password: $password) {
+      userId
+      token
+      tokenExpiration
+    }
+  }
+`;
 
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
@@ -20,30 +32,37 @@ const animate = {
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [getLogin, { loading, error, data }] = useLazyQuery(LOGIN_QUERY);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Въведете валидна електронна поща')
-      .required('Въведете електронна поща'),
-    password: Yup.string().required('Въведете парола'),
+    username: Yup.string().required("Въведете потребител"),
+    password: Yup.string().required("Въведете парола"),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      username: "",
+      password: "",
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      console.log('submitting...');
-      setTimeout(() => {
-        console.log('submited!!');
-      }, 2000);
+    onSubmit: async (values) => {
+      getLogin({
+        variables: {
+          username: values.username,
+          password: values.password,
+        },
+      });
     },
   });
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
+
+  if (data) {
+    localStorage.setItem("voeToken", data.login.token);
+    localStorage.setItem("voeUserId", data.login.userId);
+    return <Navigate to="/home" />;
+  }
 
   return (
     <FormikProvider value={formik}>
@@ -58,8 +77,8 @@ const LoginForm = () => {
         >
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
+              display: "flex",
+              flexDirection: "column",
               gap: 3,
             }}
             component={motion.div}
@@ -69,19 +88,18 @@ const LoginForm = () => {
             <TextField
               fullWidth
               autoComplete="username"
-              type="email"
-              label="Електронна поща"
-              {...getFieldProps('email')}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
+              label="Потребител"
+              error={Boolean(touched.username && errors.username)}
+              helperText={touched.username && errors.username}
+              {...getFieldProps("username")}
             />
 
             <TextField
               fullWidth
               autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               label="Парола"
-              {...getFieldProps('password')}
+              {...getFieldProps("password")}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
               InputProps={{
@@ -113,11 +131,18 @@ const LoginForm = () => {
               size="large"
               type="submit"
               variant="contained"
-              loading={isSubmitting}
+              loading={loading}
             >
-              {isSubmitting ? 'зареждане...' : 'Вход'}
+              {loading ? "зареждане..." : "Вход"}
             </LoadingButton>
           </Box>
+          {error?.message ? (
+            <AlertBox
+              text={error?.message}
+              display={() => {}}
+              success={false}
+            />
+          ) : null}
         </Box>
       </Form>
     </FormikProvider>
